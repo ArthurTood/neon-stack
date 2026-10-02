@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#111313">
+  <title>NEON STACK · Mortood 的方块街机</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="engine.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="ambient ambient-one" aria-hidden="true"></div>
+  <div class="ambient ambient-two" aria-hidden="true"></div>
+  <div class="page">
+    <header class="header">
+      <a class="brand" href="./" aria-label="NEON STACK 首页"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>MORTOOD<span class="brand-divider">/</span>ARCADE</a>
+      <div class="header-actions"><span class="online"><i></i> LOCAL PLAY</span><button class="icon-button" id="sound" type="button" aria-label="关闭音效" aria-pressed="true">♪ <span>音效 ON</span></button></div>
+    </header>
+    <main class="arcade">
+      <section class="intro">
+        <div class="eyebrow"><span>NO. 001</span><span class="tag">THE CLASSIC, REMIXED</span></div>
+        <h1>NEON<br><span>STACK<span class="title-dot">.</span></span></h1>
+        <p class="intro-copy">让方块落在对的地方。<br>让灵感，保持在线。</p>
+        <div class="mode-selector" role="group" aria-label="游戏模式">
+          <button type="button" class="mode active" data-mode="marathon" aria-pressed="true">经典无限<span>MARATHON</span></button>
+          <button type="button" class="mode" data-mode="sprint" aria-pressed="false">40 行挑战<span>SPRINT / 40</span></button>
+        </div>
+        <div class="record"><span class="small-label" id="record-label">个人最高分</span><strong id="record">000000</strong><span class="record-note">每一个新纪录，都从一块开始。</span></div>
+        <div class="keyboard-guide"><div class="guide-title">HOW TO STACK <span>↘</span></div><div><span><kbd>←</kbd> <kbd>→</kbd></span><span>左右移动</span></div><div><span><kbd>↑</kbd> / <kbd>X</kbd></span><span>顺时针旋转</span></div><div><span><kbd>Z</kbd></span><span>逆时针旋转</span></div><div><span><kbd>↓</kbd> / <kbd>SPACE</kbd></span><span>加速 / 直接落下</span></div><div><span><kbd>C</kbd> / <kbd>P</kbd></span><span>暂存 / 暂停</span></div></div>
+      </section>
+      <section class="game-column" aria-label="俄罗斯方块游戏区">
+        <div class="board-top"><span><i class="live-dot"></i><span id="game-status">READY TO PLAY</span></span><span>10 × 20</span></div>
+        <div class="board-shell" id="board-shell">
+          <canvas id="board" width="600" height="1200" aria-label="俄罗斯方块棋盘，使用方向键控制方块"></canvas>
+          <canvas id="effects" width="600" height="1200" aria-hidden="true"></canvas>
+          <div class="board-overlay" id="overlay">
+            <div class="overlay-content"><span class="overlay-kicker" id="overlay-kicker">YOUR NEXT OBSESSION</span><h2 id="overlay-title">LET’S<br><span>STACK.</span></h2><p id="overlay-copy">熟悉的方块，全新的心跳。</p><button class="start-button" id="start" type="button"><span id="start-label">开始游戏</span><span aria-hidden="true">↗</span></button><span class="overlay-footnote" id="overlay-footnote">方向键移动 · 空格落下</span></div>
+          </div>
+          <div class="toast" id="toast" aria-live="polite"></div>
+        </div>
+        <div class="board-bottom"><span>KEEP THE FLOW.</span><div><button type="button" id="pause" class="utility-button" disabled aria-label="暂停游戏">Ⅱ 暂停</button><button type="button" id="restart" class="utility-button" aria-label="重新开始游戏">↻ 重开</button></div></div>
+        <div class="touch-controls" aria-label="触控操作"><button type="button" data-action="hold" aria-label="暂存方块">C<span>暂存</span></button><button type="button" data-action="rotate" aria-label="旋转方块">↻<span>旋转</span></button><button type="button" data-action="hard" aria-label="直接落下">⇓<span>落下</span></button><button type="button" data-action="left" aria-label="左移">←</button><button type="button" data-action="down" aria-label="加速下落">↓</button><button type="button" data-action="right" aria-label="右移">→</button></div>
+      </section>
+      <aside class="dashboard" aria-label="游戏信息">
+        <div class="score-panel"><span class="small-label">SCORE / 得分</span><strong id="score">000000</strong><div class="score-meta"><span id="combo">FIND YOUR FLOW</span><span class="spark">✳</span></div></div>
+        <div class="stats"><div><span class="small-label">LEVEL / 等级</span><strong id="level">01</strong></div><div><span class="small-label">LINES / 消行</span><strong id="lines">00</strong></div></div>
+        <div class="progress-header"><span id="progress-label">下一等级</span><span id="progress-value">0 / 10</span></div><div class="progress-track"><div id="progress-fill"></div></div>
+        <section class="preview-panel"><div class="panel-header"><span>NEXT / 下一个</span><span>↙</span></div><div class="next-list"><canvas id="next-0" width="240" height="120" aria-label="下一个方块"></canvas><canvas id="next-1" width="240" height="120" aria-label="第二个待落方块"></canvas><canvas id="next-2" width="240" height="120" aria-label="第三个待落方块"></canvas></div></section>
+        <section class="preview-panel hold-panel"><div class="panel-header"><span>HOLD / 暂存</span><kbd>C</kbd></div><canvas id="hold" width="240" height="120" aria-label="暂存方块"></canvas><span class="hold-note" id="hold-note">先留一手，再出好牌。</span></section>
+        <div class="timer"><span class="small-label">SESSION TIME</span><span id="time">00:00</span></div>
+      </aside>
+    </main>
+    <footer><span>MADE FOR THE JOY OF PLAY <span class="footer-star">✳</span> BY MORTOOD</span><span>ONE MORE BLOCK. ONE MORE TRY.</span></footer>
+  </div>
+</body>
+</html>
